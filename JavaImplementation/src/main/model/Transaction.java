@@ -16,7 +16,7 @@ public class Transaction implements Runnable {
         if(isDeposit) {
             account.deposit(amount);
         } else {
-            account.withdrawal(amount);
+            account.withdraw(amount);
         }
     }
 }

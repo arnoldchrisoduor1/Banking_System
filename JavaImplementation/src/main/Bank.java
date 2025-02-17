@@ -1,6 +1,8 @@
 package main;
 
-import main.model.*;
+import main.model.Account;
+import main.model.SavingsAccount;
+import main.model.Transaction;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

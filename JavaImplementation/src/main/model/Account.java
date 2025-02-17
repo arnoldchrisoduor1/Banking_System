@@ -43,8 +43,9 @@ public abstract class Account {
     }
 
     // Thread safe withdrawal.
-    public synchronized void withdrawal(double amount) {
+    public synchronized void withdraw(double amount) {
         if (amount > 0 && amount <= balance) {
+            balance -= amount;
             System.out.println(Thread.currentThread().getName() + " withdrawal " + amount + " from account " + accountNumber);
         } else {
             System.out.println("Insufficient balance or invalid withdrawal amount.");

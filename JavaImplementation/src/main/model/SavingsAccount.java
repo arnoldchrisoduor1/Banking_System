@@ -9,7 +9,7 @@ public class SavingsAccount extends Account {
 
     @Override
     public void applyInterest() {
-        double interest = getBalance() + INTEREST_RATE;
+        double interest = getBalance() * INTEREST_RATE;
         setBalance(getBalance() + interest);
         System.out.println("Interest applied to account " + getAccountNumber() + " New balance: " + getBalance());
     }

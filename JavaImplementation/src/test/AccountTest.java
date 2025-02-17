@@ -1,7 +1,8 @@
 package test;
-import main.model.*;
+import main.model.SavingsAccount;
+import main.model.Account;
 import org.junit.jupiter.api.Test;
-import static org.junit.juniper.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountTest {
     @Test
