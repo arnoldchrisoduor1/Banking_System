@@ -88,4 +88,136 @@ public class DataStorage {
             }
         }
     }
+
+    private static class AVLTree<K extends Comparable<K>, V> {
+        private Node root;
+
+        private class Node {
+            K key;
+            V value;
+            Node left, right;
+            int height;
+
+            Node (K key, V value) {
+                this.key = key;
+                this.value = value;
+                this.height = 1;
+            }
+        }
+
+        public vois insert(K key, V value) {
+            root = insert(root, key, value);
+        }
+
+        private Node insert(Node node, K key, V value) {
+            if(node == null) {
+                return new Node(key, value);
+            }
+
+            int compare = key.compareTo(node.key);
+            if (compare < 0) {
+                node.left = insert(node.left, key, value);
+            } else if (compare > 0) {
+                node.right = insert(node.right, key, value);
+            } else {
+                node.value = value;
+                return node;
+            }
+
+            node.height = Math.max(getHeight(node.left), getHeight(node.right)) + 1;
+
+            int balance = getBalance(node);
+
+            if (balance > 1) {
+                if(key.compareTo(node.left.key) < 0) {
+                    return rightRotate(node);
+                } else {
+                    node.left = leftRotate(node.left);
+                    return rightRotate(node);
+                }
+            }
+            return node;
+        }
+
+        private Node rightRotate(Node y) {
+            Node x = y.left;
+            Node T2 = x.right;
+
+            x.right = y;
+            y.left = T2;
+
+            y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
+            x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
+
+            return x;
+        }
+
+        private Node leftRotate(Node x) {
+            Node y = x.right;
+            Nde T2 = y.left;
+
+            y.left = x;
+            x.right = T2;
+
+            x.height = Math.max(getHeight(x.left), getHeight(x.right)) + 1;
+            y.height = Math.max(getHeight(y.left), getHeight(y.right)) + 1;
+
+            return y;
+        }
+
+        private int getHeight(Node node) {
+            return node == null ? 0 : node.height;
+        }
+
+        private int getBalance(Node node) {
+            return node == null ? 0 : getHeight(node.left) - getHeight(right.node);
+        }
+
+        public V search(K key) {
+            Node node = root;
+            while (node != null) {
+                int compare = key.compareTo(node.key);
+                if(compare == 0) {
+                    return node.value;
+                } else if (compare < 0) {
+                    node = node.left;
+                } else {
+                    node = node.right;
+                }
+            }
+            return null;
+        }
+    }
+
+    public void saveAccount(Account account) {
+        accountMap.put(account.getAccountNumber(), account);
+
+        // updating the balance index.
+        List<String> accountNumbers = balanceIndex.search(account.getBalance());
+        if(accountNumbers == null) {
+            accountNumbers = new ArrayList<>();
+        }
+        accountNumbers.add(account.getAccountNumber());
+        balancedIndex.insert(account.getBalance(), accountNumbers);
+    }
+
+    public Accoount getAccount(String accountNumber) {
+        return accountMap.get(accountNumber);
+    }
+
+    public List<Account> getAccountsByBalance(double balance) {
+        List<String> accountNumbers = balanceIndex.search(balance);
+        if(accountNumbers == null) {
+            return new ArrayList<>();
+        }
+
+        List<Account> accounts = new ArrayList<>();
+        for (String accNumber : accountNumbers) {
+            Account account = accountMap.get(accNumber);
+            if (account != null) {
+                accounts.add(account);
+            }
+        }
+        return accounts;
+    }
 }
