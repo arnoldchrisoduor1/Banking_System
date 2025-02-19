@@ -1,14 +1,14 @@
 import main.model.Account;
 import java.util.*;
 
-public class DataStorage {
+public class BankDataStorage {
     // Primary storage using a custom hashmap implementation.
     private CustomHashMap <String, Account> accountMap;
 
     // Index for quick balance-based queries using AVL trees.
     private AVLTree<Double, List<String>> balanceIndex;
 
-    public DataStorage() {
+    public BankDataStorage() {
         this.accountMap = new CustomHashMap();
         this.balanceIndex = new AVLTree();
     }
@@ -105,7 +105,7 @@ public class DataStorage {
             }
         }
 
-        public vois insert(K key, V value) {
+        public void insert(K key, V value) {
             root = insert(root, key, value);
         }
 
